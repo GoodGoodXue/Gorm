@@ -1,13 +1,15 @@
 package main
 
 import (
+	"fmt"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )
 
 type User1 struct {
-	gorm.Model
+	Id   int
 	Name string
 	Age  int64
 }
@@ -25,19 +27,65 @@ func main() {
 
 	db.AutoMigrate(&User1{})
 
-	// db.Create(&User1{Name: "xiaowang", Age: 18})
-	// db.Create(&User1{Name: "laowang", Age: 28})
-	user := []*User1{&User1{Name: "小1", Age: 1}, &User1{Name: "小2", Age: 2}}
-	db.Create(&user)
+	// db.Create(&User1{Name: "xiaowang", Age: 38})
+	// db.Create(&User1{Name: "laowang", Age: 48})
+
+	// 批量插入
+	// user := []*User1{&User1{Name: "小1", Age: 1}, &User1{Name: "小2", Age: 2}}
+	// db.Create(&user)
+
 	// 查询
-	// var user User1 // 声明模型结构体类型变量user
+	var user []User1 // 声明模型结构体类型变量user
+
 	// user := new(User1) // new返回指针类型，所以user为指针
 
-	// db.First(user)
+	// db.First(&user)
 	// fmt.Printf("user:%#v\n", user)
+
+	// db.Take(&user)
+	// fmt.Printf("user:%#v\n", user)
+
+	// db.Last(&user)
+	// fmt.Printf("user:%#v\n", user)
+
+	// result := map[string]interface{}{}
+	// db.Model(&User1{}).First(&result)
+	// fmt.Printf("result:%v\n", result)
+
+	// db.Model(&User1{}).Take(&result)
+	// fmt.Printf("result:%v\n", result)
+
+	// db.First(&user, 1)
+
+	// db.Find(&user)
+
+	// db.Debug().Find(&user, []int{1, 2})
+	// fmt.Println(user)
 
 	// var users []User1
 	// db.Debug().Find(&users)
 	// fmt.Printf("user:%#v\n", users)
 
+	// db.Where("name=?", "xiaowang").First(&user)
+	// fmt.Println(user)
+
+	// db.Where("name <> ?", "xiaowang").Find(&user)
+	// fmt.Println(user)
+
+	// db.Where("name IN ?", []string{"xiaowang", "laowang"}).Find(&user)
+	// fmt.Println(user)
+
+	// db.Where("name LIKE ?", "%xiao%").Find(&user)
+	// fmt.Println(user)
+
+	db.Where(&User1{Name: "xiaowang", Age: 18}).First(&user)
+	fmt.Println(user)
+
+	// db.Where(map[string]interface{}{"name": "laowang", "age": 28}).Find(&user)
+	// db.Where([]int64{1, 3, 5}).Find(&user)
+	// fmt.Println(user)
+
+	// db.Select("name", "age").Find(&user)
+	db.Select([]string{"name", "age"}).Find(&user)
+	fmt.Println(user)
 }
