@@ -115,5 +115,18 @@ func main() {
 	fmt.Println(user)
 
 
-	
+
+	var user User1[]
+	db.First(&user)
+	db.First(&user,1)
+	db.Find(&user,[]int{1,2,3})
+	db.Take(&user)
+	db.Where("name = ?" , "xiaowang").First(&user)
+	db.Where("name <> ?" , "xiaowang").Find(&user)
+	db.Where("name IN ?",[]string{"xiaowang","laowang"}).Find(&user)
+	db.Where("name Like ?","%xiao%").Find(&user)
+	db.Model(&User1{}).Updated("")
+
+	db.Where(&User1{Name:"xiaowang",Age:18}).First(&user)
+	db.Where(map[string]{Name:"xiaowang",Age:18}).Find(&user)
 }
