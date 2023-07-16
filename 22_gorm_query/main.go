@@ -58,7 +58,7 @@ func main() {
 	// 	"key2": 123,
 	// 	"key3": true,
 	// }
-	
+
 	// result := map[string]interface{}{}
 	// Model为选择结构体进行后续操作
 	// db.Model(&User1{}).First(&result)
@@ -78,7 +78,6 @@ func main() {
 	// 查询第一二值
 	// db.Debug().Find(&user, []int{1, 2})
 	// fmt.Println(user)
-
 
 	// var users []User1
 	// db.Debug().Find(&users)
@@ -114,19 +113,15 @@ func main() {
 	db.Select([]string{"name", "age"}).Find(&user)
 	fmt.Println(user)
 
-
-
-	var user User1[]
-	db.First(&user)
-	db.First(&user,1)
-	db.Find(&user,[]int{1,2,3})
+	// var user []User1
+	db.First(&user, 1)
+	db.Find(&user, []int{1, 2, 3})
 	db.Take(&user)
-	db.Where("name = ?" , "xiaowang").First(&user)
-	db.Where("name <> ?" , "xiaowang").Find(&user)
-	db.Where("name IN ?",[]string{"xiaowang","laowang"}).Find(&user)
-	db.Where("name Like ?","%xiao%").Find(&user)
-	db.Model(&User1{}).Updated("")
+	db.Where("name = ?", "xiaowang").First(&user)
+	db.Where("name <> ?", "xiaowang").Find(&user)
+	db.Where("name IN ?", []string{"xiaowang", "laowang"}).Find(&user)
+	db.Where("name Like ?", "%xiao%").Find(&user)
 
-	db.Where(&User1{Name:"xiaowang",Age:18}).First(&user)
-	db.Where(map[string]{Name:"xiaowang",Age:18}).Find(&user)
+	db.Where(&User1{Name: "xiaowang", Age: 18}).First(&user)
+	db.Where(map[string]interface{}{"name": "xiaowang", "age": 18}).Find(&user)
 }
